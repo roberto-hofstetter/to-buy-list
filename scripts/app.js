@@ -1,14 +1,3 @@
-//Default ToBuyList
-let fakeToBuyList = {    
-  key : '0',
-  label: 'Lista da semana',    
-  tobuylist: [
-      {name: 'egg', quantity: 2, unityPrice: 1.50},
-      {name: 'bread', quantity: 6, unityPrice: 2.78},
-      {name: 'chocolat', quantity: 60, unityPrice: 50}
-    ]
-};
-
 //App initial defautl values    
 let app = {
   isLoading: true,
@@ -20,12 +9,25 @@ let app = {
   container: document.querySelector('.main'),
   containerItensList: document.querySelector('.main-itens-list'),
   addDialog: document.querySelector('.dialog-container') 
-};  
+};
+
+let List = require('./modules/list.js')(app);
+
+//Default ToBuyList
+let fakeToBuyList = {    
+  key : '0',
+  label: 'Lista da semana',    
+  tobuylist: [
+      {name: 'egg', quantity: 2, unityPrice: 1.50},
+      {name: 'bread', quantity: 6, unityPrice: 2.78},
+      {name: 'chocolat', quantity: 60, unityPrice: 50}
+    ]
+}; 
 
 //binds method to add another list 
 document.getElementById('butAdd').addEventListener('click', function() {
   // Open/show the add new city dialog
-  app.toggleAddDialog(true);
+  List.toggleAddDialog(true);
 });
 
 //binds method to add list on "add" button click
@@ -38,23 +40,14 @@ document.getElementById('butAddList').addEventListener('click', function() {
   app.SelectedToBuyLists.push({key: key, label: label});
   app.updateToBuyListCards({key: key, label: label});        
   app.saveSelectedToBuyList();    
-  app.toggleAddDialog(false);
+  List.toggleAddDialog(false);
 });
 
 //binds method to close modal on "cancel" button click 
 document.getElementById('butAddCancel').addEventListener('click', function() {
   // Close the add new city dialog
-  app.toggleAddDialog(false);
+  List.toggleAddDialog(false);
 });
-
-// Toggles the visibility of the add new list dialog.
-app.toggleAddDialog = function(visible) {
-  if (visible) {
-    app.addDialog.classList.add('dialog-container--visible');
-  } else {
-    app.addDialog.classList.remove('dialog-container--visible');
-  }
-};
 
 // Add code to save the users list of subscribed cities here
 // Save list of cities to localStorage, see note below about localStorage.
