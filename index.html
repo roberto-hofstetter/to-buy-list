@@ -4,21 +4,28 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TODO List SuperMarket App</title>
+  <title>To Buy List App</title>
   
   <link rel="stylesheet" type="text/css" href="styles/inline.css">
 
 </head>
 <body>
   <header class="header">
-    <h1 class="header__title">SuperMarket App</h1>
-    <!--<button id="butRefresh" class="headerButton"></button>-->
+    <h1 class="header__title">To Buy List</h1>    
     <button id="butAdd" class="headerButton"></button>
   </header>
 
   <main class="main" hidden>
-    <div class="card cardTemplate weather-forecast" hidden>
+    <div class="card listTemplate item" hidden>
       <div class="list-name"></div>    
+    </div>
+  </main>
+
+  <main class="main-itens-list" hidden>
+    <div class="card listItensTemplate item" hidden>
+      <div class="list-item-name"></div>
+      <div class="list-item-quant"></div>    
+      <div class="list-item-price"></div>        
     </div>
   </main>
 
@@ -39,8 +46,8 @@
     <svg viewBox="0 0 32 32" width="32" height="32">
       <circle id="spinner" cx="16" cy="16" r="14" fill="none"></circle>
     </svg>
-  </div>
+  </div>  
 
-  <script src="/scripts/app.js"></script>
+  <script src="/scripts/main.js"></script>  
 </body>
 </html>
