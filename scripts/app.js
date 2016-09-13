@@ -15,7 +15,7 @@ let List = require('./modules/list.js')(app);
 
 //Default ToBuyList
 let fakeToBuyList = {    
-  key : '0',
+  id : '0',
   label: 'Lista da semana',    
   tobuylist: [
       {name: 'egg', quantity: 2, unityPrice: 1.50},
@@ -36,10 +36,10 @@ document.getElementById('butAddList').addEventListener('click', function() {
   let newList = document.getElementById('NewListName');            
   let label = newList.value;    
   let countListItems = app.getToBuyLists().length;
-  let key = countListItems + 1;        
-  app.SelectedToBuyLists.push({key: key, label: label});
-  app.updateToBuyListCards({key: key, label: label});        
-  app.saveSelectedToBuyList();    
+  let id = countListItems + 1;        
+  app.SelectedToBuyLists.push({id: id, label: label});
+  List.updateToBuyListCards({id: id, label: label});        
+  List.saveSelectedToBuyList();    
   List.toggleAddDialog(false);
 });
 
@@ -49,52 +49,6 @@ document.getElementById('butAddCancel').addEventListener('click', function() {
   List.toggleAddDialog(false);
 });
 
-// Add code to save the users list of subscribed cities here
-// Save list of cities to localStorage, see note below about localStorage.
-app.saveSelectedToBuyList = function() {
-  let SelectedToBuyLists = JSON.stringify(app.SelectedToBuyLists);
-  // IMPORTANT: See notes about use of localStorage.
-  localStorage.SelectedToBuyLists = SelectedToBuyLists;
-};
-
-// Updates a weather card with the latest weather ToBuyList. If the card
-// doesn't already exist, it's cloned from the template.
-app.updateToBuyListCards = function(data) {
-  let card = app.visibleCards[data.key];
-  if (!card) {
-    card = app.listTemplate.cloneNode(true);
-    card.classList.remove('listTemplate');
-    card.querySelector('.list-name').textContent = data.label;
-    card.removeAttribute('hidden');
-    app.container.appendChild(card);
-    app.visibleCards[data.key] = card;
-
-    //binds method to click on the item and open its food list
-    card.addEventListener('click', function() {
-      app.container.setAttribute('hidden', true);
-      app.containerItensList.removeAttribute('hidden');      
-      let listItem = app.listItemTemplate;
-      listItem.removeAttribute('hidden'); 
-      listItem.cloneNode(true);        
-      listItem.querySelector('.list-item-name').textContent = data.tobuylist[0].name;
-      listItem.querySelector('.list-item-quant').textContent = data.tobuylist[0].quantity;
-      listItem.querySelector('.list-item-price').textContent = data.tobuylist[0].unityPrice;
-    });
-
-  }
-  if (app.isLoading) {
-    app.spinner.setAttribute('hidden', true);
-    app.container.removeAttribute('hidden');
-    app.isLoading = false;
-  }
-};
-
-
-//Gets all To Buy Lists
-app.getToBuyLists = function() {      
-    return app.SelectedToBuyLists;
-}, 
-
 //On firt load, checks if theres any list in localStorage 
 app.SelectedToBuyLists = localStorage.SelectedToBuyLists;
 
@@ -103,9 +57,9 @@ if (app.SelectedToBuyLists) {
   app.SelectedToBuyLists = JSON.parse(app.SelectedToBuyLists);
   app.SelectedToBuyLists.forEach(function(item) {
     // load with data
-    app.updateToBuyListCards(item);
+    List.updateToBuyListCards(item);
   });        
-  app.saveSelectedToBuyList();
+  List.saveSelectedToBuyList();
 }
 //if theres none, get the default and save to the select
 else {  
@@ -113,6 +67,6 @@ else {
     fakeToBuyList
   ];
   // load with data
-  app.updateToBuyListCards(app.SelectedToBuyLists[0]);    
-  app.saveSelectedToBuyList();
+  List.updateToBuyListCards(app.SelectedToBuyLists[0]);    
+  List.saveSelectedToBuyList();
 }
