@@ -13,6 +13,9 @@ let app = {
 
 let List = require('./modules/list.js')(app);
 
+let home = require('./components/home.js')(List);
+home.init();
+
 //Default ToBuyList
 let fakeToBuyList = {    
   id : '0',
@@ -23,31 +26,6 @@ let fakeToBuyList = {
       {name: 'chocolat', quantity: 60, unityPrice: 50}
     ]
 }; 
-
-//binds method to add another list 
-document.getElementById('butAdd').addEventListener('click', function() {
-  // Open/show the add new city dialog
-  List.toggleAddDialog(true);
-});
-
-//binds method to add list on "add" button click
-document.getElementById('butAddList').addEventListener('click', function() {
-  // Add the newly created to buy list
-  let newList = document.getElementById('NewListName');            
-  let label = newList.value;    
-  let countListItems = app.getToBuyLists().length;
-  let id = countListItems + 1;        
-  app.SelectedToBuyLists.push({id: id, label: label});
-  List.updateToBuyListCards({id: id, label: label});        
-  List.saveSelectedToBuyList();    
-  List.toggleAddDialog(false);
-});
-
-//binds method to close modal on "cancel" button click 
-document.getElementById('butAddCancel').addEventListener('click', function() {
-  // Close the add new city dialog
-  List.toggleAddDialog(false);
-});
 
 //On firt load, checks if theres any list in localStorage 
 app.SelectedToBuyLists = localStorage.SelectedToBuyLists;

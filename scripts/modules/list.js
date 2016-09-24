@@ -41,19 +41,28 @@ module.exports = function(app){
 
         function listItemsLogic(){                 
             app.container.setAttribute('hidden', true);
-            app.containerItensList.removeAttribute('hidden');                          
+            app.containerItensList.removeAttribute('hidden');                                      
+                            
+            data.tobuylist.map((item) => {                                  
+                let lisItemParent = document.querySelector('.main-itens-list');
+                let lisItemDiv = document.createElement('div');
+                lisItemDiv.classList.add('card', 'listItensTemplate','item');
 
-            data.tobuylist.map((item) => {      
+                lisItemDiv.innerHTML = "<div class='list-item-name'>Produto: "+item.name+"</div>"+
+                                            "<div class='list-item-quant'>Quant: "+item.quantity+"</div> "+   
+                                            "<div class='list-item-price'>Preço Uni: "+item.unityPrice+"</div>";                                                                 
+                
+                lisItemParent.appendChild(lisItemDiv);   
 
-                //pra cada item da lista de compras, clona um elemente da lista do html e appenda
-                let listItem = app.listItemTemplate;
-                listItem.removeAttribute('hidden'); 
-                var cloned = listItem.cloneNode(true);
-                listItem.appendChild(cloned);
-
-                listItem.querySelector('.list-item-name').textContent = item.name;
-                listItem.querySelector('.list-item-quant').textContent = item.quantity;
-                listItem.querySelector('.list-item-price').textContent = item.unityPrice;                            
+                //binds method to click on the item and open its food list
+                lisItemDiv.addEventListener('click', function() {
+                    //nao esta marcado
+                    if(this.classList.value.indexOf('checked') == -1)
+                        this.classList += ' checked';
+                    else
+                        this.classList.remove('checked');                    
+                });
+                                                      
             });
         }
     };

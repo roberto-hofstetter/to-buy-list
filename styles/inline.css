@@ -320,3 +320,27 @@ body {
   .item .future .oneday .icon {
     width: 32px;
     height: 32px; } }
+
+
+/* items list */
+
+.listItensTemplate, .list-item-name, .list-item-quant, .list-item-price{
+  float:left;
+} 
+
+.listItensTemplate{
+  min-width:90%;
+}
+
+.list-item-name{
+  width: 100%;  
+}
+
+.list-item-quant, .list-item-price{
+  width: 50%;  
+}
+
+.checked{
+  color:white;
+  background-color: #41ce41;
+}
