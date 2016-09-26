@@ -1,50 +1,50 @@
 //App initial defautl values    
 let app = {
   isLoading: true,
-  visibleCards: {},
+  visibleCards: {},  
   SelectedToBuyLists: [],
   spinner: document.querySelector('.loader'),
   listTemplate: document.querySelector('.listTemplate'),
   listItemTemplate: document.querySelector('.listItensTemplate'),
   container: document.querySelector('.main'),
   containerItensList: document.querySelector('.main-itens-list'),
-  addDialog: document.querySelector('.dialog-container') 
+  addDialog: document.querySelector('.dialog-container'),
+  addItemDialog: document.querySelector('.dialog-container-item') 
 };
 
-let List = require('./modules/list.js')(app);
+//indexedDB.deleteDatabase('to-buy-lists')
 
-let home = require('./components/home.js')(List);
-home.init();
+const list_schema = {
+  stores: [{
+    name: 'list',
+    keyPath: 'name',
+    autoIncrement:true
+  }, {
+    name: 'list_item',
+    indexes: {
+      keyPath: 'name'
+    }
+  }]
+};
 
-//Default ToBuyList
-let fakeToBuyList = {    
-  id : '0',
-  label: 'Lista da semana',    
-  tobuylist: [
-      {name: 'egg', quantity: 2, unityPrice: 1.50},
-      {name: 'bread', quantity: 6, unityPrice: 2.78},
-      {name: 'chocolat', quantity: 60, unityPrice: 50}
-    ]
-}; 
+var db = new ydn.db.Storage('to-buy-lists', list_schema);
 
-//On firt load, checks if theres any list in localStorage 
-app.SelectedToBuyLists = localStorage.SelectedToBuyLists;
+let List = require('./modules/list.js')(app, db);
 
-//if theres is a list, show then to the user on select
-if (app.SelectedToBuyLists) {
-  app.SelectedToBuyLists = JSON.parse(app.SelectedToBuyLists);
-  app.SelectedToBuyLists.forEach(function(item) {
-    // load with data
-    List.updateToBuyListCards(item);
-  });        
-  List.saveSelectedToBuyList();
+let homeComponent = require('./components/home.js')(List, app, db);
+homeComponent.init();
+
+let listComponent = require('./components/list.js')(List, app, db);
+listComponent.init();
+
+if (!window.indexedDB) {
+    window.alert("Seu navegador não suporta uma versão estável do IndexedDB. Alguns recursos não estarão disponíveis.");
 }
-//if theres none, get the default and save to the select
-else {  
-  app.SelectedToBuyLists = [
-    fakeToBuyList
-  ];
-  // load with data
-  List.updateToBuyListCards(app.SelectedToBuyLists[0]);    
-  List.saveSelectedToBuyList();
-}
+
+var list_1 = {
+  name: 'lista do mes'
+};
+
+db.put('list', list_1);
+
+List.updateAppList();

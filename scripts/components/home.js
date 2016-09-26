@@ -1,4 +1,4 @@
-module.exports = function(List){   
+module.exports = function(List, app, db){   
 
   var init = function(){
     //binds method to add another list 
@@ -11,12 +11,9 @@ module.exports = function(List){
     document.getElementById('butAddList').addEventListener('click', function() {
       // Add the newly created to buy list
       let newList = document.getElementById('NewListName');            
-      let label = newList.value;    
-      let countListItems = app.getToBuyLists().length;
-      let id = countListItems + 1;        
-      app.SelectedToBuyLists.push({id: id, label: label});
-      List.updateToBuyListCards({id: id, label: label});        
-      List.saveSelectedToBuyList();    
+      let label = newList.value;          
+      db.put('list', {name: newList.value});
+      List.updateToBuyListCards({name: newList.value});            
       List.toggleAddDialog(false);
     });
 

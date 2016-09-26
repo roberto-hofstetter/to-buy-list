@@ -92,7 +92,7 @@ body {
     outline: none; }
   .header #butRefresh {
     background: url(/images/ic_refresh_white_24px.svg) center center no-repeat; }
-  .header #butAdd {
+  .header #butAdd, .header #butAddItem {
     background: url(/images/ic_add_white_24px.svg) center center no-repeat; }
 
 .header__title {
@@ -173,7 +173,7 @@ body {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch; }
 
-.dialog-container {
+.dialog-container, .dialog-container-item {
   background: rgba(0, 0, 0, 0.57);
   position: fixed;
   left: 0;
@@ -186,7 +186,7 @@ body {
   -webkit-transition: opacity 0.333s cubic-bezier(0, 0, 0.21, 1);
   transition: opacity 0.333s cubic-bezier(0, 0, 0.21, 1); }
 
-.dialog-container--visible {
+.dialog-container--visible, .dialog-container-item--visible {
   opacity: 1;
   pointer-events: auto; }
 

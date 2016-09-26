@@ -18,6 +18,7 @@
     "required-loader": "^1.0.0",
     "webpack": "^2.1.0-beta.14",
     "webpack-dev-server": "^1.14.1",
-    "webpack-validator": "^2.2.0"
+    "webpack-validator": "^2.2.0",
+    "ydn.db": "^1.3.0"
   }
 }
